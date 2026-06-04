@@ -21,6 +21,7 @@ import java.util.List;
 * */
 
 @RestController
+@RequestMapping("/api/v1/todos")
 public class TodoController {
     private static List<Todo> todoList;
 
@@ -30,13 +31,13 @@ public class TodoController {
         todoList.add(new Todo(2, false, "todo 2", 2));
     }
 
-    @GetMapping("/todos")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Todo> getTodoList(){
         return todoList;
     }
 
-    @PostMapping("/todos")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Todo createTodoList(@RequestBody Todo newTodo){
         todoList.add(newTodo);
@@ -46,7 +47,7 @@ public class TodoController {
 instead of ResponseStatus annotation we can use ResponseEntity class to
 return the http status code along with data in the body.
 */
-    @GetMapping("/todos/{todoId}")
+    @GetMapping("/{todoId}")
     public ResponseEntity<Todo> getTodoList(@PathVariable int todoId){
         for(Todo toDo : todoList) {
             if (toDo.getId() == todoId)

@@ -1,5 +1,7 @@
-package com.example.TodoAPISpring;
+package com.example.TodoAPISpring.controller;
 
+import com.example.TodoAPISpring.dto.Todo;
+import com.example.TodoAPISpring.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,7 @@ public class TodoController {
     public TodoController(){
         todoList = new ArrayList<>();
         todoList.add(new Todo(1, false, "todo 1", 1));
-        todoList.add(new Todo(2, false, "todo 2", 2));
+        todoList.add(new Todo(2, false, "todo 2", 1));
     }
 
     @GetMapping
@@ -53,6 +55,6 @@ return the http status code along with data in the body.
             if (toDo.getId() == todoId)
                 return ResponseEntity.status(HttpStatus.OK).body(toDo);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        throw new ResourceNotFoundException("user with id "+todoId+" does not exist");
     }
 }

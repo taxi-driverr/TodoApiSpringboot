@@ -16,8 +16,8 @@ import java.util.List;
 * what is the use case of code,
 * example : @RestController - this class acts as a controller.
 * where to find data,
-* example : @RequestBody - the data comes in body of http request,
-* @PathVariable - the data comes as url param
+* example : @RequestBody - the data comes in body("body param") of http request,
+* @PathVariable - the data comes as "url param"
 * what to do,
 * example - @ResponseBody - return the data in http response body.
 * */
@@ -35,7 +35,11 @@ public class TodoController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Todo> getTodoList(){
+    public List<Todo> getTodoList(@RequestParam(required = false, defaultValue = "true") boolean isCompleted){
+        //request param is to look for data in "query param".
+        //required prevents our api from breaking if user dont send anything
+        //defaultvalue is taken into consideration if there is no value send
+        System.out.println(isCompleted);
         return todoList;
     }
 
@@ -49,6 +53,7 @@ public class TodoController {
 instead of ResponseStatus annotation we can use ResponseEntity class to
 return the http status code along with data in the body.
 */
+
     @GetMapping("/{todoId}")
     public ResponseEntity<Todo> getTodoList(@PathVariable int todoId){
         for(Todo toDo : todoList) {
@@ -57,4 +62,14 @@ return the http status code along with data in the body.
         }
         throw new ResourceNotFoundException("user with id "+todoId+" does not exist");
     }
+
+    //WILDCARD CAN ACCEPT ANYTHING
+//    @GetMapping("/{todoId}")
+//    public ResponseEntity<?> getTodoList(@PathVariable int todoId){
+//        for(Todo toDo : todoList) {
+//            if (toDo.getId() == todoId)
+//                return ResponseEntity.status(HttpStatus.OK).body(toDo);
+//        }
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("MESSAGE : TODO NOT FOUND");
+//    }
 }

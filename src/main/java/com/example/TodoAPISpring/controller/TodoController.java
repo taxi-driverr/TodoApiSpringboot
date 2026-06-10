@@ -2,6 +2,7 @@ package com.example.TodoAPISpring.controller;
 
 import com.example.TodoAPISpring.dto.Todo;
 import com.example.TodoAPISpring.exception.ResourceNotFoundException;
+import com.example.TodoAPISpring.service.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +26,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/todos")
 public class TodoController {
+    //Composition - has a relationship
+    // Dependency Inversion - depend on abstract rather than concrete classes.
+    private TodoService todoService;
+
     private static List<Todo> todoList;
 
-    public TodoController(){
+    //dependency injection - spring when initializing controller will inject the
+    // classes which implemented todoservice that we defined with @Service/@Component
+    public TodoController(TodoService todoService){
+        this.todoService = todoService;
         todoList = new ArrayList<>();
         todoList.add(new Todo(1, false, "todo 1", 1));
         todoList.add(new Todo(2, false, "todo 2", 1));

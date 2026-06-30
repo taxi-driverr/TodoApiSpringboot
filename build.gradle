@@ -22,6 +22,12 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Required AspectJ runtime dependencies
+	implementation 'org.aspectj:aspectjrt:1.9.25.1'
+
+	// If defining aspects using code annotations inside this project
+	implementation 'org.aspectj:aspectjweaver:1.9.25.1'
 }
 
 tasks.named('test') {
